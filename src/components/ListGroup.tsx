@@ -1,9 +1,17 @@
 //import { Fragment } from "react";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 
-function ListGroup() {
-  let items = ["shen", "irelia", "xin zhao"];
-  //items = [];
+interface Props {
+  items: string[],
+  heading: string;
+
+  onSelectItem: (item: string) => void;
+}
+
+function ListGroup({items, heading, onSelectItem}: Props) {
+  
+
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   // event handler
   const handleClick = (event: MouseEvent) => console.log(event);
@@ -20,13 +28,13 @@ function ListGroup() {
     // o react interpreta tags vazias como Fragment
     // otherwise: <Fragment>
     <>
-      <h1>aaaaa</h1>
+      <h1>{heading}</h1>
       {/* outra forma de aplicar a mesma lógica: */}
       {/* items.length === 0 && <p>no item found</p> */}
       {message}
       <ul className="list-group">
         {items.map((item, index) => (
-          <li key={item} onClick={handleClick} className="list-group-item">
+          <li key={item} onClick={() => {setSelectedIndex(index); onSelectItem(item)}} className={selectedIndex === index ? 'list-group-item active' : 'list-group-item'}>
             {item}
           </li>
         ))}
